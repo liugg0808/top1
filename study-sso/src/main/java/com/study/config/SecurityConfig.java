@@ -1,0 +1,42 @@
+package com.study.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http)throws Exception{
+        http.formLogin()
+                .loginPage("/logion")
+                //自定义登录页面的表单提交地址
+                .loginProcessingUrl("/authentication/form")
+                .and()
+                .authorizeRequests()
+                //过滤不需要拦截认证的资源
+                .antMatchers("/login").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .csrf().disable();
+
+        http.logout().permitAll()
+                //注销
+                .logoutUrl("/logout")
+                //注销成功后跳转的页面
+                .logoutSuccessUrl("/login");
+
+    }
+}
