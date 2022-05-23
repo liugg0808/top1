@@ -1,6 +1,9 @@
-package com.study.redis;
+package com.study.config;
 
 
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -9,8 +12,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 //redis配置类
 @Configuration
-public class RedisTemplateConfig {
+@EnableCaching
+public class RedisTemplateConfig extends CachingConfigurerSupport {
 
+    @Bean
     public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
 
         RedisTemplate<String, Object> redisTemplate  = new RedisTemplate<>();

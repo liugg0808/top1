@@ -2,3 +2,13 @@ server:
   port: 8090
   servlet:
     context-path: /sso
+spring:
+  redis:
+    host: 47.107.83.24
+    port: 6379
+
+  datasource:
+    url: jdbc:mysql://47.107.83.24:3306/study
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
